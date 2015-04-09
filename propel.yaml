@@ -1,0 +1,22 @@
+propel:
+  database:
+      connections:
+          reporter:
+              adapter: mysql
+              classname: Propel\Runtime\Connection\ConnectionWrapper
+              dsn: "mysql:host=localhost;dbname=reporter"
+              user: root
+              password: ""
+              attributes:
+              settings:
+                charset: utf8
+                queries:
+                  utf8: "SET NAMES utf8 COLLATE utf8_unicode_ci, COLLATION_CONNECTION = utf8_unicode_ci, COLLATION_DATABASE = utf8_unicode_ci, COLLATION_SERVER = utf8_unicode_ci"
+  runtime:
+      defaultConnection: reporter
+      connections:
+          - reporter
+  generator:
+      defaultConnection: reporter
+      connections:
+          - reporter

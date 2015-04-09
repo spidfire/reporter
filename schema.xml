@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="reporter" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+<table name="accounts" idMethod="native" phpName="Accounts">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="128" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="32" required="true"/>
+    <column name="type" phpName="Type" type="INTEGER" required="true"/>
+    <vendor type="mysql">
+    <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+</table>
+
+<table name="category" idMethod="native" phpName="Category">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="32" required="true"/>
+    <vendor type="mysql">
+    <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+</table>
+
+<table name="metric" idMethod="native" phpName="Metric">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="label" phpName="Label" type="VARCHAR" size="64" required="true"/>
+    <column name="description" phpName="Description" type="LONGVARCHAR"/>
+    <column name="ignoreuntil" phpName="Ignoreuntil" type="INTEGER" required="true"/>
+    <column name="missingalert" phpName="Missingalert" type="INTEGER" required="true"/>
+    <index name="label">
+    <index-column name="label"/>
+    </index>
+    <vendor type="mysql">
+    <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+</table>
+
+<table name="metric_data" idMethod="native" phpName="MetricData">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="metric_id" phpName="MetricId" type="INTEGER" required="true"/>
+    <column name="time" phpName="Time" type="INTEGER" required="true"/>
+    <column name="success" phpName="Success" type="INTEGER" size="1" required="true"/>
+    <column name="value" phpName="Value" type="LONGVARCHAR" required="false"/>
+    <column name="checked" phpName="Checked" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="metric" name="metric_data_to_metric" onDelete="CASCADE" onUpdate="CASCADE">
+    <reference local="metric_id" foreign="id"/>
+    </foreign-key>
+    <index name="metric_id">
+    <index-column name="metric_id"/>
+    </index>
+    <vendor type="mysql">
+    <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+</table>
+
+<!-- Couple tables -->
+<table name="account_to_category" idMethod="native" phpName="AccountToCategory">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="account_id" phpName="AccountId" type="INTEGER" required="true"/>
+    <column name="category_id" phpName="CategoryId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="category" name="account_to_category_ibfk_2" onDelete="CASCADE" onUpdate="CASCADE">
+    <reference local="category_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="accounts" name="account_to_category_ibfk_1" onDelete="CASCADE" onUpdate="CASCADE">
+    <reference local="account_id" foreign="id"/>
+    </foreign-key>
+    <index name="account_id">
+    <index-column name="account_id"/>
+    </index>
+    <index name="category_id">
+    <index-column name="category_id"/>
+    </index>
+    <vendor type="mysql">
+    <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+</table>
+<table name="category_to_metric" idMethod="native" phpName="CategoryToMetric">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="category_id" phpName="CategoryId" type="INTEGER" required="true"/>
+    <column name="metric_id" phpName="MetricId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="metric" name="category_to_metric_ibfk_2" onDelete="CASCADE" onUpdate="CASCADE">
+    <reference local="metric_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="category" name="category_to_metric_ibfk_1" onDelete="CASCADE" onUpdate="CASCADE">
+    <reference local="category_id" foreign="id"/>
+    </foreign-key>
+    <index name="category_id">
+    <index-column name="category_id"/>
+    </index>
+    <index name="metric_id">
+    <index-column name="metric_id"/>
+    </index>
+    <vendor type="mysql">
+    <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+</table>
+</database>

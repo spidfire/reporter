@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p class='alert alert-danger'>{{ error | default("Page not found!") }}</p>
+
+{% endblock %}

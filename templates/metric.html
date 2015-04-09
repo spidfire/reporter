@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+   <h2>{{ metric.getLabel }}</h2>
+
+   {% for d in metric.getMetricDatas %}
+
+    <li class='alert {{ d.getSuccess == 1 ? "alert-success" : "alert-danger" }}'>
+        {{ d.getTime | date('d-m-Y H:i:s')}}: {{ d.value| default("[ No data set ]") }}
+    
+    </li>
+   {% else %}
+   No Datapoints found
+   {% endfor %}
+
+
+{% endblock %}

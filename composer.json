@@ -1,0 +1,20 @@
+{
+    "name": "Spidfire/reporter",
+    "require": {
+        "slim/slim": "~2.6",
+        "twig/twig": "~1.18",
+        "propel/propel": "2.0.*@dev"
+    },
+    "autoload":{
+        "classmap": [
+            "generated-classes/",
+            "controllers/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Djurre de Boer",
+            "email": "djurredenboer@gmail.com"
+        }
+    ]
+}
